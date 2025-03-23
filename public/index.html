@@ -21,7 +21,7 @@
     }
 
     try {
-        // Enviar o texto para o servidor proxy e pegar a URL do áudio
+ 
         const response = await fetch(`/audio?texto=${encodeURIComponent(texto)}`);
         
         if (response.ok) {
