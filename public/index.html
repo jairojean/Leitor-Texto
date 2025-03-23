@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leitor de Texto</title>
+</head>
+<body>
+    <h1>Leitor de Texto para Áudio</h1>
+    
+    <textarea id="texto" rows="4" cols="50" placeholder="Digite o texto para ser lido..."></textarea><br><br>
+    <button onclick="falar()">Play</button>
+
+    <script>
+     async function falar() {
+    const texto = document.getElementById('texto').value;
+
+    if (!texto) {
+        alert('Por favor, insira um texto!');
+        return;
+    }
+
+    try {
+        // Enviar o texto para o servidor proxy e pegar a URL do áudio
+        const response = await fetch(`/audio?texto=${encodeURIComponent(texto)}`);
+        
+        if (response.ok) {
+            
+            const audioBlob = await response.blob();
+            const audioUrl = URL.createObjectURL(audioBlob);
+            const audio = new Audio(audioUrl);
+            audio.play();
+        } else {
+            console.error('Erro ao obter áudio do servidor');
+        }
+    } catch (error) {
+        console.error('Erro ao reproduzir o áudio:', error);
+    }
+}
+
+
+    </script>
+</body>
+</html>
